@@ -1,0 +1,38 @@
+#aws_access_key_id: "845c339e-9a86-4f72-964c-2613b10902d8"
+#aws_secret_access_key: "464492933b7a5e08b75c56bb3f99d3e43b52148e598a776d6e89e9139763e243"
+#endpoint_url: "http://cloud.messner.click:8000"
+#bucket_name: "webstorage-google-drive"
+#scopes: 
+#    - "https://www.googleapis.com/auth/drive"
+#token_file: "token.auth.drive.pickle"
+#secrets_file: "credentials.json"
+## local directory to store metadata
+#tmp_file: "tmp.dmp"
+#data_dir: "data
+
+version: "2.4"
+
+volumes:
+    temp_data:
+
+services:
+    drive_sync:
+        image: docker-registry.messner.click/drive-sync:latest
+        build: ./
+        container_name: drive_sync
+        environment:
+            AWS_ACCESS_KEY_ID: "845c339e-9a86-4f72-964c-2613b10902d8"  # s3 id
+            AWS_SECRET_ACCESS_KEY: "464492933b7a5e08b75c56bb3f99d3e43b52148e598a776d6e89e9139763e243"  # s3 secret
+            ENDPOINT_URL: "http://cloud.messner.click:8000"  # s3 endpoint url
+            BUCKET_NAME: "webstorage-google-drive"   # s3 bucket to store data in
+            SCOPES: "https://www.googleapis.com/auth/drive"  # for drive-api necessary
+            TOKEN_FILE: "token.auth.drive.pickle"  # stored token
+            SECRETS_FILE: "credentials.json"  # google credentials 
+            TMP_FILENAME: "/usr/src/app/data/tmp.dmp"  # temporary filename
+            INTERVAL: 86400  # one day
+            LOG_LEVEL: "INFO"  # used with logging
+        volumes:
+            - temp_data:/usr/src/app/data
+            - ./token.auth.drive.pickle:/usr/src/app/token.auth.drive.pickle:ro
+            - ./webstorage.yml:/usr/src/app/.webstorage/webstorage.yml:ro  # webstorage config
+            - ./credentials.json:/usr/src/app/data/credentials.json:ro  # google secrets to get a token
