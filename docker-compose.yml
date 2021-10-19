@@ -22,6 +22,6 @@ services:
             - LOG_LEVEL
         volumes:
             - temp_data:/usr/src/app/data  # scratch data
-            - ./webstorage.yml:/usr/src/app/.webstorage/webstorage.yml:ro  # webstorage config
-            - ./credentials.json:/usr/src/app/data/credentials.json:ro  # google secrets to get a token
-            - ./token.auth.drive.pickle:/usr/src/app/token.auth.drive.pickle:ro  # stored google token
+            - ./secret/webstorage.yml:/usr/src/app/.webstorage/webstorage.yml:ro  # webstorage config
+            - ./secret/credentials.json:/usr/src/app/credentials.json:ro  # google secrets to get a token
+            - ./secret/token.auth.drive.pickle:/usr/src/app/token.auth.drive.pickle:ro  # stored google token
