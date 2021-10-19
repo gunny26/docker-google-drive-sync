@@ -3,21 +3,15 @@
 program to sync google drive data to webstorage and storing
 metadata information in local json file
 """
-# import hashlib
 import json
 import logging
 import os
-# import pickle
 # non std-modules
 import boto3
 import googleapiclient
 from googleapiclient.discovery import build
-# from google_auth_oauthlib.flow import InstalledAppFlow
-# from google.auth.transport.requests import Request
-# from apiclient import http
 # own modules
 from webstorageS3 import FileStorageClient
-# from tools import *
 from tools import get_credentials, get_ids, get_metadata, download_file, put_metadata, put_filestorage
 
 

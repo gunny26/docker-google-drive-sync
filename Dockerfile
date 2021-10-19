@@ -11,15 +11,15 @@ WORKDIR /usr/src/app
 RUN mkdir /usr/src/app/data
 RUN mkdir /usr/src/app/.webstorage
 
-COPY ./requirements.txt /usr/src/app/
-COPY ./tools.py /usr/src/app/tools.py
-COPY ./webstorageS3-1.2.0-py3-none-any.whl /usr/src/app/
+COPY ./build/requirements.txt /usr/src/app/
+COPY ./build/tools.py /usr/src/app/tools.py
+COPY ./build/webstorageS3-1.2.0-py3-none-any.whl /usr/src/app/
 
 RUN pip install --no-cache-dir ./webstorageS3-1.2.0-py3-none-any.whl
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip freeze
 
-COPY ./webstorage.yml /usr/src/app/.webstorage/
-COPY ./drive_sync.py /usr/src/app/main.py
+# COPY ./webstorage.yml /usr/src/app/.webstorage/
+COPY ./build/drive_sync.py /usr/src/app/main.py
 
 ENTRYPOINT ["python", "-u", "/usr/src/app/main.py"]

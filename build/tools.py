@@ -5,14 +5,15 @@ import json
 import pickle
 # non std-modules
 import requests
-import boto3
-import yaml
+# import boto3
+# import yaml
 # non-std modules installed by pip
-import googleapiclient
-from googleapiclient.discovery import build
+# import googleapiclient
+# from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from apiclient import http
+
 
 def download_file(service, file_id, local_fd):
     """
@@ -28,20 +29,22 @@ def download_file(service, file_id, local_fd):
         if done:
             return
 
-def download_media(baseUrl:str, local_fd):
+
+def download_media(base_url: str, local_fd):
     """
     download photo from google photos
     this is not the original file
     :param baseUrl: from mediaItem Data
     :param local_fd: local open file in wb
     """
-    with requests.get(baseUrl, stream=True) as res:
+    with requests.get(base_url, stream=True) as res:
         res.raise_for_status()
         for chunk in res.iter_content(chunk_size=1024 * 1024):
             # If you have chunk encoded response uncomment if
             # and set chunk_size parameter to None.
-            #if chunk:
+            # if chunk:
             local_fd.write(chunk)
+
 
 def get_file_sha1(local_fd) -> str:
     """
@@ -59,7 +62,8 @@ def get_file_sha1(local_fd) -> str:
     filedigest = filehash.hexdigest()
     return filedigest
 
-def get_ids(client, bucket_name:str) -> list:
+
+def get_ids(client, bucket_name: str) -> list:
     """
     get local or in s3 stored ids
     :param directory <str>: directory to search for id's
@@ -75,7 +79,8 @@ def get_ids(client, bucket_name:str) -> list:
                 ret_data.append(key["Key"].replace(".json", ""))
     return ret_data
 
-def get_keys(client, bucket_name:str) -> list:
+
+def get_keys(client, bucket_name: str) -> list:
     """
     generator to get objects in s3 bucket, returning Key
     :param directory <str>: directory to search for id's
@@ -89,7 +94,8 @@ def get_keys(client, bucket_name:str) -> list:
             if key["Key"].endswith(".json"):
                 yield key["Key"].replace(".json", "")
 
-def get_metadata(client, bucket_name:str, item_id:str) -> dict:
+
+def get_metadata(client, bucket_name: str, item_id: str) -> dict:
     """
     return s3 object content, item_id is used to build key of object
     """
@@ -97,12 +103,14 @@ def get_metadata(client, bucket_name:str, item_id:str) -> dict:
     metadata = json.loads(data["Body"].read())
     return metadata
 
-def put_metadata(client, bucket_name, metadata:dict) -> None:
+
+def put_metadata(client, bucket_name: str, metadata: dict) -> None:
     """
     storing metadata as object in s3 bucket
     """
     res = client.put_object(Bucket=bucket_name, Key=metadata["id"] + ".json", Body=json.dumps(metadata).encode("utf-8"))
     print(res)
+
 
 def put_filestorage(client, infile) -> str:
     """
@@ -114,14 +122,14 @@ def put_filestorage(client, infile) -> str:
     if not client.exist(checksum):
         infile.seek(0)
         # something like this
-        #{
+        # {
         #   'blockchain': ['34bc60d2eceaeab4ac120163f5782ac34e7f3075'],
         #   'size': 247854,
         #   'checksum': '34bc60d2eceaeab4ac120163f5782ac34e7f3075',
         #   'mime_type': 'application/octet-stream',
         #   'filehash_exists': True,
         #   'blockhash_exists': 1
-        #}
+        # }
         result = client.put(infile)
         print(f"added file {result['checksum']} ({result['size']} bytes)")
         assert result["checksum"] == checksum # must be the same
@@ -129,7 +137,8 @@ def put_filestorage(client, infile) -> str:
         print(f"skipping checksum {checksum}, already in filestorage")
     return checksum # returning resulting checksum
 
-def get_credentials(token_file:str, scopes:str, secrets_file:str) -> dict:
+
+def get_credentials(token_file: str, scopes: str, secrets_file: str) -> dict:
     """
     :param token_file: filename of pickled token
     :param scopes: scopes to request
@@ -138,7 +147,7 @@ def get_credentials(token_file:str, scopes:str, secrets_file:str) -> dict:
     # created automatically when the authorization flow completes for the first
     # time.
     creds = None
-    if os.path.exists(token_file): # if some token file exists
+    if os.path.exists(token_file):  # if some token file exists
         with open(token_file, "rb") as token:
             creds = pickle.load(token)
     # If there are no (valid) credentials available, let the user log in.
