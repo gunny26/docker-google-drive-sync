@@ -1,13 +1,14 @@
 docker-google-drive-sync
-Auf Branch master
+Auf Branch latest
 Unversionierte Dateien:
   (benutzen Sie "git add <Datei>...", um die Änderungen zum Commit vorzumerken)
+	.flake8
 	latest.tmp
 
 nichts zum Commit vorgemerkt, aber es gibt unversionierte Dateien
 (benutzen Sie "git add" zum Versionieren)
-using 2024-11-28-b895f47
-Sending build context to Docker daemon    791kB
+using 2024-12-01-ee71dc8
+Sending build context to Docker daemon  210.9kB
 Step 1/22 : FROM ubuntu:24.04
  ---> fec8bfd95b54
 Step 2/22 : ENV DEBIAN_FRONTEND=noninteractive
@@ -74,4 +75,4 @@ Step 22/22 : CMD ["python3", "-u", "/usr/src/app/main.py"]
  ---> Using cache
  ---> 7693c56e5e8a
 Successfully built 7693c56e5e8a
-Successfully tagged registry.messner.click/gunny26/docker-google-drive-sync:2024-11-28-b895f47
+Successfully tagged registry.messner.click/gunny26/docker-google-drive-sync:2024-12-01-ee71dc8
