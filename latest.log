@@ -1,0 +1,77 @@
+docker-google-drive-sync
+Auf Branch master
+Unversionierte Dateien:
+  (benutzen Sie "git add <Datei>...", um die Änderungen zum Commit vorzumerken)
+	latest.tmp
+
+nichts zum Commit vorgemerkt, aber es gibt unversionierte Dateien
+(benutzen Sie "git add" zum Versionieren)
+using 2024-11-28-b895f47
+Sending build context to Docker daemon    791kB
+Step 1/22 : FROM ubuntu:24.04
+ ---> fec8bfd95b54
+Step 2/22 : ENV DEBIAN_FRONTEND=noninteractive
+ ---> Using cache
+ ---> 1696b2a27c5a
+Step 3/22 : ENV TZ=Europe/Vienna
+ ---> Using cache
+ ---> 3c8aeeaf96d2
+Step 4/22 : RUN apt update && apt -y --no-install-recommends upgrade
+ ---> Using cache
+ ---> f12659283c32
+Step 5/22 : RUN apt install --no-install-recommends -y     tzdata     python3-setuptools     python3-pip     python3-requests     python3-yaml     python3-boto3     python3-dateutil
+ ---> Using cache
+ ---> beec93876aa6
+Step 6/22 : WORKDIR /usr/src/app
+ ---> Using cache
+ ---> 4a73652f8104
+Step 7/22 : COPY ./build/requirements.txt /usr/src/app/
+ ---> Using cache
+ ---> 68be1b5813bd
+Step 8/22 : COPY ./build/webstorageS3-1.2.1-py3-none-any.whl /usr/src/app/
+ ---> Using cache
+ ---> 0aa52ed48603
+Step 9/22 : RUN mkdir /usr/src/app/.webstorage
+ ---> Using cache
+ ---> b068bb37addf
+Step 10/22 : COPY ./secret/webstorage.yml /home/ubuntu/.webstorage/webstorage.yml
+ ---> Using cache
+ ---> 1bf4b405d0eb
+Step 11/22 : COPY ./secret/credentials.json /usr/src/app/credentials.json
+ ---> Using cache
+ ---> 1aa8abef1d08
+Step 12/22 : COPY ./secret/token.auth.drive.pickle /usr/src/app/token.auth.drive.pickle
+ ---> Using cache
+ ---> 2ecd6e7d7bb0
+Step 13/22 : RUN mkdir /usr/src/app/data
+ ---> Using cache
+ ---> 0359ef51af95
+Step 14/22 : RUN chown -R ubuntu /usr/src/app
+ ---> Using cache
+ ---> 8e6b8bd95061
+Step 15/22 : RUN pip3 install --break-system-packages --disable-pip-version-check --no-cache-dir ./webstorageS3-1.2.1-py3-none-any.whl
+ ---> Using cache
+ ---> d199341c6ba9
+Step 16/22 : RUN pip3 install --break-system-packages --disable-pip-version-check --no-cache-dir -r requirements.txt
+ ---> Using cache
+ ---> cb989db5cd12
+Step 17/22 : RUN pip3 freeze
+ ---> Using cache
+ ---> d8ce03a2238f
+Step 18/22 : RUN apt -y purge python3-pip python3-setuptools;     apt -y autoremove;     apt -y clean; rm /usr/src/app/webstorageS3-1.2.1-py3-none-any.whl
+ ---> Using cache
+ ---> 0bc327e67829
+Step 19/22 : COPY ./build/tools.py /usr/src/app/tools.py
+ ---> Using cache
+ ---> a701e8b8d443
+Step 20/22 : COPY ./build/main.py /usr/src/app/main.py
+ ---> Using cache
+ ---> 37c9277c9b10
+Step 21/22 : USER ubuntu
+ ---> Using cache
+ ---> 5c15754cf5b1
+Step 22/22 : CMD ["python3", "-u", "/usr/src/app/main.py"]
+ ---> Using cache
+ ---> 7693c56e5e8a
+Successfully built 7693c56e5e8a
+Successfully tagged registry.messner.click/gunny26/docker-google-drive-sync:2024-11-28-b895f47

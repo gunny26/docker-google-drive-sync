@@ -1,0 +1,21 @@
+version: "2.4"
+
+services:
+    drive-sync:
+        image: registry.messner.click/gunny26/docker-google-drive-sync:latest
+        container_name: drive-sync
+        restart: unless-stopped
+        environment:
+            # thats the newest one, minio
+            APP_AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
+            APP_AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY}
+            APP_ENDPOINT_URL: ${ENDPOINT_URL}
+            APP_BUCKET_NAME: webstorage-google-drive
+            APP_SCOPES: https://www.googleapis.com/auth/drive
+            APP_TOKEN_FILE: token.auth.drive.pickle
+            APP_SECRETS_FILE: credentials.json
+            APP_TMP_FILENAME: /usr/src/app/data/tmp.dmp
+            APP_INTERVAL: 86400
+            APP_LOG_LEVEL: INFO
+        ports:
+            - 9101:9100/tcp
