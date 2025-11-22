@@ -2,7 +2,7 @@ version: "2.4"
 
 services:
     drive-sync:
-        image: registry.messner.click/gunny26/docker-google-drive-sync:latest
+        image: ghcr.io/gunny26/docker-google-drive-sync:latest
         container_name: drive-sync
         restart: unless-stopped
         environment:
