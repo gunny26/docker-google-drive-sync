@@ -5,6 +5,10 @@ services:
         image: ghcr.io/gunny26/docker-google-drive-sync:latest
         container_name: drive-sync
         restart: unless-stopped
+        volumes:
+            - ./secret/webstorage.yml:/home/ubuntu/.webstorage/webstorage.yml
+            - ./secret/credentials.json:/usr/src/app/credentials.json
+            - ./secret/token.auth.drive.pickle:/usr/src/app/token.auth.drive.pickle
         environment:
             # thats the newest one, minio
             APP_AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID}
