@@ -18,10 +18,10 @@ COPY ./build/webstorageS3-1.2.1-py3-none-any.whl /usr/src/app/
 
 # webtorage configuration
 RUN mkdir /usr/src/app/.webstorage
-COPY ./secret/webstorage.yml /home/ubuntu/.webstorage/webstorage.yml
+# COPY ./secret/webstorage.yml /home/ubuntu/.webstorage/webstorage.yml
 # some secrets, not the best way, but ...
-COPY ./secret/credentials.json /usr/src/app/credentials.json
-COPY ./secret/token.auth.drive.pickle /usr/src/app/token.auth.drive.pickle
+# COPY ./secret/credentials.json /usr/src/app/credentials.json
+# COPY ./secret/token.auth.drive.pickle /usr/src/app/token.auth.drive.pickle
 # temporary data
 RUN mkdir /usr/src/app/data
 # make all available for user ubuntu
