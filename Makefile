@@ -33,6 +33,7 @@ latest:
 	--platform $(PLATFORM_LATEST) \
 	--tag $(IMAGE_NAME) \
 	--tag $(IMAGE_NAME_LATEST) \
+	--load \
 	.
 
 stable:
