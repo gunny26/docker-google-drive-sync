@@ -53,6 +53,7 @@ stable:
 	# --push \
 	# .
 	# back to latest
+	git push origin main
 	git checkout latest
 
 lint:
